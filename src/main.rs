@@ -5,7 +5,6 @@ use std::process::Command;
 use std::thread;
 use std::time::Duration;
 
-// INFO: hello this is mostly ai generated code xD
 fn print_txt(input: &str, font_path: &str) {
     if let Ok(output) = Command::new("figlet")
         .args(&["-w", "200", "-d", "res/", "-f", font_path])
@@ -25,61 +24,27 @@ fn print_txt(input: &str, font_path: &str) {
     }
 }
 
-// fn print_txt(txt: &str) {
-//     let figure = Command::new("figlet")
-//         .arg("-t")
-//         .arg(txt)
-//         .output()
-//         .expect(txt);
-//     println!(
-//         "{}",
-//         String::from_utf8_lossy(&figure.stdout).trim().to_string()
-//     );
-//     // let standard_font = FIGfont::from_file("res/small.flf").unwrap();
-//     // let figure = standard_font.convert(txt);
-// }
-
-// fn remove_timestamp(line: &str) -> String {
-//     let re = Regex::new(r"\[\d+:\.\d+\]").unwrap();
-//     let out = re.replace_all(line, "").to_string();
-//     println!("TS REMOVED: {}", out);
-//     out
-// }
-
 fn remove_timestamp(line: &str) -> String {
-    // Find the position of '[' and ']'
     if let Some(start) = line.find('[') {
         if let Some(end) = line[start..].find(']') {
-            // Construct the new string without the timestamp
             let mut result = String::with_capacity(line.len() - (end + 2));
             result.push_str(&line[..start]);
             result.push_str(&line[start + end + 1..]);
 
-            // println!("TS REMOVED: {}", result);
             return result;
         }
     }
 
-    // Return the original string if brackets are not found
-    // println!("TS REMOVED: {}", line);
     line.to_string()
 }
 
-// fn get_timestamp(line: &str) -> &str {
-//     let re = Regex::new(r"(?<=\[)\d+:\.\d+(?=\])").unwrap();
-//     re.find(line).map_or("", |m| m.unwrap().as_str())
-// }
-
 fn get_timestamp(line: &str) -> &str {
-    // Find the position of '[' and ']'
     if let Some(start) = line.find('[') {
         if let Some(end) = line[start..].find(']') {
-            // Extract the content between '[' and ']'
             return &line[start + 1..start + end];
         }
     }
 
-    // Return an empty string if brackets are not found
     ""
 }
 
@@ -114,7 +79,6 @@ fn main() -> io::Result<()> {
     let lines: Vec<_> = io::BufReader::new(file).lines().collect();
 
     let line_count = lines.len();
-    // println!("WE GOT {} lines", line_count);
 
     Command::new("clear")
         .status()
@@ -133,7 +97,6 @@ fn main() -> io::Result<()> {
             .expect("failed to clear screen");
 
         let ts_next = if x != line_count - 1 {
-            // handle the last line
             get_timestamp(&lines[x + 1].as_ref().unwrap())
         } else {
             "00:00.00"
