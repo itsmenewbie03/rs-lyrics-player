@@ -7,7 +7,7 @@ use std::time::Duration;
 
 fn print_txt(input: &str, font_path: &str) {
     if let Ok(output) = Command::new("figlet")
-        .args(&["-w", "200", "-d", "res/", "-f", font_path])
+        .args(&["-w", "150", "-d", "res/", "-f", font_path])
         .arg(input)
         .output()
     {
