@@ -5,9 +5,9 @@ use std::process::Command;
 use std::thread;
 use std::time::Duration;
 
-fn print_txt(input: &str, font_path: &str) {
+fn print_txt(input: &str, _font_path: &str) {
     if let Ok(output) = Command::new("figlet")
-        .args(&["-w", "150", "-d", "res/", "-f", font_path])
+        .args(["-w", "150"])
         .arg(input)
         .output()
     {
@@ -86,7 +86,7 @@ fn main() -> io::Result<()> {
 
     let t1 = thread::spawn(|| {
         Command::new("ffplay")
-            .args(&["-v", "0", "-nodisp", "-autoexit", "res/music.mp3"])
+            .args(["-v", "0", "-nodisp", "-autoexit", "res/music.mp3"])
             .status()
             .expect("failed to execute ffplay");
     });
@@ -97,7 +97,7 @@ fn main() -> io::Result<()> {
             .expect("failed to clear screen");
 
         let ts_next = if x != line_count - 1 {
-            get_timestamp(&lines[x + 1].as_ref().unwrap())
+            get_timestamp(lines[x + 1].as_ref().unwrap())
         } else {
             "00:00.00"
         };
