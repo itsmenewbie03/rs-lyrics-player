@@ -5,7 +5,7 @@ use std::process::Command;
 use std::thread;
 use std::time::Duration;
 
-fn print_txt(input: &str, _font_path: &str) {
+fn print_txt(input: &str) {
     if let Ok(output) = Command::new("figlet")
         .args(["-w", "150"])
         .arg(input)
@@ -105,7 +105,7 @@ fn main() -> io::Result<()> {
         let line_now = &lines[x];
         let line_now_cleaned = remove_timestamp(line_now.as_ref().unwrap().as_str());
         let ts_now = get_timestamp(line_now.as_ref().unwrap().as_str());
-        print_txt(&line_now_cleaned, "small");
+        print_txt(&line_now_cleaned);
         pause_between_timestamps(ts_now, ts_next);
     }
 
